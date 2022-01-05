@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/business2"
+        android:icon="@drawable/ic_baseline_attach_money_24"
+        android:title="@string/business" />
+    <item
+        android:id="@+id/general"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/general" />
+    <item
+        android:id="@+id/sports2"
+        android:icon="@drawable/ic_baseline_sports_basketball_24"
+        android:title="@string/sports" />
+    <item
+        android:id="@+id/tech"
+        android:icon="@drawable/ic_baseline_science_24"
+        android:title="@string/technology" />
+</menu>

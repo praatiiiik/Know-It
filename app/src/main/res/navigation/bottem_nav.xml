@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottem_nav"
+    app:startDestination="@id/general">
+    <fragment
+        android:id="@+id/business2"
+        android:name="com.example.knowit.ui.Fragment.Business"
+        android:label="fragment_business"
+        tools:layout="@layout/fragment_business" >
+        <action
+            android:id="@+id/action_business2_to_general"
+            app:destination="@id/general" />
+        <action
+            android:id="@+id/action_business2_to_general2"
+            app:destination="@id/general" />
+    </fragment>
+    <fragment
+        android:id="@+id/general"
+        android:name="com.example.knowit.ui.Fragment.General"
+        android:label="fragment_general"
+        tools:layout="@layout/fragment_general" />
+    <fragment
+        android:id="@+id/sports2"
+        android:name="com.example.knowit.ui.Fragment.Sports"
+        android:label="fragment_sports"
+        tools:layout="@layout/fragment_sports" >
+        <action
+            android:id="@+id/action_sports2_to_general"
+            app:destination="@id/general" />
+    </fragment>
+    <fragment
+        android:id="@+id/tech"
+        android:name="com.example.knowit.ui.Fragment.Tech"
+        android:label="fragment_tech"
+        tools:layout="@layout/fragment_tech" >
+        <action
+            android:id="@+id/action_tech_to_general"
+            app:destination="@id/general" />
+    </fragment>
+</navigation>
