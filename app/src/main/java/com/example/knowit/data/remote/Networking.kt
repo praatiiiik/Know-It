@@ -8,6 +8,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object Networking {
     private const val BASE_URL = "https://saurav.tech/NewsAPI/top-headlines/"
@@ -28,6 +29,9 @@ object Networking {
                         request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
                     chain.proceed(request)
                 }
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
                 .build())
             .build()
             .create(NetworkService::class.java)

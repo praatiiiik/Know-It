@@ -15,7 +15,8 @@ import com.example.knowit.util.ImageStorageManager
 
 class DiffGeneralAdapter(
     val context: Context,
-    private val onItemClicked: (GeneralNewsTable) -> Unit
+    private val onItemClicked: (GeneralNewsTable) -> Unit,
+    private val onShareButtonClicked: (String) -> Unit
 ) : ListAdapter<GeneralNewsTable, DiffGeneralAdapter.GeneralListViewHolder>(DiffUtil()) {
 
 
@@ -24,12 +25,14 @@ class DiffGeneralAdapter(
         val imgView = itemView.imageView
         val title = itemView.titleTV
         val desc = itemView.desc
+        val share = itemView.newsShare
 
 
         fun bind(
             data: GeneralNewsTable,
             context: Context?,
-            onItemClicked: (GeneralNewsTable) -> Unit
+            onItemClicked: (GeneralNewsTable) -> Unit,
+            onShareButtonClicked: (String) -> Unit
         ) {
             title.text = data.article?.title
             desc.text = data.article?.description
@@ -47,6 +50,9 @@ class DiffGeneralAdapter(
             desc.setOnClickListener {
                 onItemClicked(data)
             }
+            share.setOnClickListener{
+                onShareButtonClicked(data.article?.url!!)
+            }
         }
 
     }
@@ -63,7 +69,7 @@ class DiffGeneralAdapter(
     override fun onBindViewHolder(holder: GeneralListViewHolder, position: Int) {
 
         val item = getItem(position)
-        holder.bind(item, context , onItemClicked)
+        holder.bind(item, context , onItemClicked , onShareButtonClicked)
     }
 
 

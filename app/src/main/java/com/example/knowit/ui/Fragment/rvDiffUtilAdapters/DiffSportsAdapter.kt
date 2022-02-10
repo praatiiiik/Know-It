@@ -13,7 +13,8 @@ import com.example.knowit.util.ImageStorageManager
 
 class DiffSportsAdapter(
     val context: Context,
-    private val onItemClicked: (SportsNewsTable) -> Unit
+    private val onItemClicked: (SportsNewsTable) -> Unit,
+    private val onShareButtonClicked : (String) -> Unit
 ) : ListAdapter<SportsNewsTable, DiffSportsAdapter.SportsListViewHolder>(DiffUtil()) {
 
     class SportsListViewHolder(itemView: RecyclerviewBinding) :
@@ -21,11 +22,13 @@ class DiffSportsAdapter(
         private val imgView = itemView.imageView
         val title = itemView.titleTV
         private val desc = itemView.desc
+        private val share = itemView.newsShare
 
         fun bind(
             data: SportsNewsTable,
             context: Context?,
-            onItemClicked: (SportsNewsTable) -> Unit
+            onItemClicked: (SportsNewsTable) -> Unit,
+            onShareButtonClicked : (String) -> Unit
         ) {
             title.text = data.article?.title
             desc.text = data.article?.description
@@ -42,6 +45,9 @@ class DiffSportsAdapter(
             desc.setOnClickListener {
                 onItemClicked(data)
             }
+            share.setOnClickListener{
+                onShareButtonClicked(data.article?.url!!)
+            }
         }
     }
 
@@ -57,7 +63,7 @@ class DiffSportsAdapter(
 
     override fun onBindViewHolder(holder: SportsListViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, context ,onItemClicked)
+        holder.bind(item, context ,onItemClicked,onShareButtonClicked)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<SportsNewsTable>() {

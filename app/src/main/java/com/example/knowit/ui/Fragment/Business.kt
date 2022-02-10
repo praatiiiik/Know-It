@@ -1,5 +1,6 @@
 package com.example.knowit.ui.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.knowit.data.local.entityTables.BusinessNewsTable
 import com.example.knowit.data.viewmodels.NewsViewModel
@@ -18,6 +20,7 @@ import com.example.knowit.ui.Fragment.rvDiffUtilAdapters.DiffBusinessAdapter
 class Business : Fragment() {
 
     private val sharedViewModel: NewsViewModel by activityViewModels()
+
     private var _mBinding : FragmentBusinessBinding? = null
     private val mBinding get() = _mBinding!!
     private lateinit var adapter : DiffBusinessAdapter
@@ -28,7 +31,7 @@ class Business : Fragment() {
     ): View {
         _mBinding = FragmentBusinessBinding.inflate(inflater, container, false)
         initViews()
-        adapter = DiffBusinessAdapter(requireActivity(),this::onItemClicked)
+        adapter = DiffBusinessAdapter(requireActivity(),this::onItemClicked,this::shareButtonClicked)
         return mBinding.root
     }
 
@@ -49,7 +52,7 @@ class Business : Fragment() {
             adapter.submitList(it)
         })
 
-        mBinding.businesRefreshButton.setOnClickListener {
+        mBinding.businessRefreshButton.setOnClickListener {
             sharedViewModel.getBusinessNews()
         }
     }
@@ -58,5 +61,17 @@ class Business : Fragment() {
         val intent = WebViewActivity.getStartIntent(requireActivity(), data?.article?.url.toString())
         startActivity(intent)
         //   Toast.makeText(requireContext(),data?.id.toString(),Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareButtonClicked(data : String){
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, data)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }

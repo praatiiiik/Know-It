@@ -1,5 +1,6 @@
 package com.example.knowit.ui.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +16,8 @@ import com.example.knowit.ui.Activity.WebViewActivity
 import com.example.knowit.ui.Fragment.rvDiffUtilAdapters.DiffSportsAdapter
 
 
-class Sports : Fragment() {
+class
+Sports : Fragment() {
 
     private val sharedViewModel : NewsViewModel by activityViewModels()
     private var _mBinding : FragmentSportsBinding? = null
@@ -28,7 +30,7 @@ class Sports : Fragment() {
     ): View {
         _mBinding = FragmentSportsBinding.inflate(inflater, container, false)
         initViews()
-        adapter = DiffSportsAdapter(requireActivity(),this::onItemClicked)
+        adapter = DiffSportsAdapter(requireActivity(),this::onItemClicked ,this::shareButtonClicked)
         return mBinding.root
     }
 
@@ -57,6 +59,18 @@ class Sports : Fragment() {
         val intent = WebViewActivity.getStartIntent(requireActivity(), data?.article?.url.toString())
         startActivity(intent)
         //   Toast.makeText(requireContext(),data?.id.toString(),Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareButtonClicked(data : String){
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, data)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 }

@@ -21,12 +21,17 @@ class ImageStorageManager  {
         fun getImageFromInternalStorage(context: Context, imageFileName: String): Bitmap? {
             val directory = context.filesDir
             val file = File(directory, imageFileName)
-            return BitmapFactory.decodeStream(FileInputStream(file))
+            return try{
+                BitmapFactory.decodeStream(FileInputStream(file))
+            }catch (e : Exception){
+                null
+            }
         }
 
         fun deleteImageFromInternalStorage(context: Context, imageFileName: String): Boolean {
             val dir = context.filesDir
             val file = File(dir, imageFileName)
+            Log.d("remove",imageFileName)
             return file.delete()
         }
 

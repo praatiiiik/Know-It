@@ -13,7 +13,10 @@ import com.example.knowit.data.local.entityTables.TechNewsTable
 import com.example.knowit.databinding.RecyclerviewBinding
 import com.example.knowit.util.ImageStorageManager
 
-class DiffTechAdapter(val context: Context, private val onItemClicked: (TechNewsTable) -> Unit) :
+class DiffTechAdapter(
+    val context: Context, private val onItemClicked: (TechNewsTable) -> Unit,
+    private val onShareButtonClicked: (String) -> Unit
+) :
     ListAdapter<TechNewsTable, DiffTechAdapter.TechListViewHolder>(DiffUtil()) {
 
     class TechListViewHolder(itemView: RecyclerviewBinding) :
@@ -21,11 +24,13 @@ class DiffTechAdapter(val context: Context, private val onItemClicked: (TechNews
         val imgView = itemView.imageView
         val title = itemView.titleTV
         val desc = itemView.desc
+        val share = itemView.newsShare
 
         fun bind(
             data: TechNewsTable,
             context: Context?,
-            onItemClicked: (TechNewsTable) -> Unit
+            onItemClicked: (TechNewsTable) -> Unit,
+            onShareButtonClicked: (String) -> Unit
         ) {
             title.text = data.article?.title
             desc.text = data.article?.description
@@ -42,6 +47,9 @@ class DiffTechAdapter(val context: Context, private val onItemClicked: (TechNews
             desc.setOnClickListener {
                 onItemClicked(data)
             }
+            share.setOnClickListener{
+               onShareButtonClicked(data.article?.url!!)
+            }
         }
     }
 
@@ -57,7 +65,7 @@ class DiffTechAdapter(val context: Context, private val onItemClicked: (TechNews
 
     override fun onBindViewHolder(holder: TechListViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, context, onItemClicked)
+        holder.bind(item, context, onItemClicked , onShareButtonClicked)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<TechNewsTable>() {

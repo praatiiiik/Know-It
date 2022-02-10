@@ -14,7 +14,8 @@ import com.example.knowit.util.ImageStorageManager
 
 class DiffBusinessAdapter(
     val context: Context,
-    private val onItemClicked: (BusinessNewsTable) -> Unit
+    private val onItemClicked: (BusinessNewsTable) -> Unit,
+    private val onShareButtonClicked: (String) -> Unit
 ) :
     ListAdapter<BusinessNewsTable, DiffBusinessAdapter.BusinessListViewHolder>(DiffUtil()) {
 
@@ -23,11 +24,13 @@ class DiffBusinessAdapter(
         val imgView = itemView.imageView
         val title = itemView.titleTV
         val desc = itemView.desc
+        val share = itemView.newsShare
 
         fun bind(
             data: BusinessNewsTable,
             context: Context?,
-            onItemClicked: (BusinessNewsTable) -> Unit
+            onItemClicked: (BusinessNewsTable) -> Unit,
+            onShareButtonClicked: (String) -> Unit
         ) {
             title.text = data.article?.title
             desc.text = data.article?.description
@@ -45,6 +48,9 @@ class DiffBusinessAdapter(
             desc.setOnClickListener {
                 onItemClicked(data)
             }
+            share.setOnClickListener{
+                onShareButtonClicked(data.article?.url!!)
+            }
         }
     }
 
@@ -59,7 +65,7 @@ class DiffBusinessAdapter(
 
     override fun onBindViewHolder(holder: BusinessListViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, context , onItemClicked)
+        holder.bind(item, context , onItemClicked,onShareButtonClicked)
     }
 
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<BusinessNewsTable>() {

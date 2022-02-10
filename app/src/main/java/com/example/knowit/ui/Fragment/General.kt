@@ -1,6 +1,7 @@
 package com.example.knowit.ui.Fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -32,7 +33,7 @@ class General() : Fragment() {
     ): View {
         _mBinding = FragmentGeneralBinding.inflate(inflater, container, false)
         initViews()
-        adapter = DiffGeneralAdapter(requireActivity(),this::onItemClicked)
+        adapter = DiffGeneralAdapter(requireActivity(),this::onItemClicked,this::shareButtonClicked)
         return mBinding.root
     }
 
@@ -60,7 +61,18 @@ class General() : Fragment() {
     private fun onItemClicked(data: GeneralNewsTable?) {
         val intent = WebViewActivity.getStartIntent(requireActivity(), data?.article?.url.toString())
         startActivity(intent)
-     //   Toast.makeText(requireContext(),data?.id.toString(),Toast.LENGTH_SHORT).show()
+    }
+
+    private fun shareButtonClicked(data : String){
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, data)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
 
